@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plasma Water Africa</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: #004e6e;
+      padding: 20px;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #ffc107;
+    }
+
+    .menu {
+      display: flex;
+    }
+
+    .search-bar {
+      display: flex;
+      margin-right: 20px;
+    }
+
+    .search-bar input {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .search-bar button {
+      padding: 8px 15px;
+      border: none;
+      background-color: #1f5d7b;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+
+    main {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #004e6e;
+    }
+
+    .service-container, .product-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding: 20px;
+    }
+
+    .service-card, .product-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover, .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-card h3, .product-card h3 {
+      color: #004e6e;
+    }
+
+    .service-card p, .product-card p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .add-to-cart {
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background-color: #0056b3;
+    }
+
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .cart-modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-modal h3 {
+      margin-bottom: 20px;
+      color: #004e6e;
+    }
+
+    .cart-modal ul {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .cart-modal ul li {
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    .cart-total {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 10px;
+      color: #28a745;
+    }
+
+    .close-cart, #checkout-button {
+      background-color: #dc3545;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .close-cart:hover, #checkout-button:hover {
+      background-color: #c82333;
+    }
+
+    footer {
+      background-color: #004e6e;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Animation for adding to cart */
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.8);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .zoom-in {
+      animation: zoomIn 0.5s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">Plasma Water Africa</div>
+      <div class="menu">
+        <a href="#services">Services</a>
+        <a href="#products">Products</a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search...">
+        <button>Search</button>
+      </div>
+      <div class="cart" id="cart-button">
+        <button>Cart (0)</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="services">
+      <h2>Our Services</h2>
+      <div class="service-container">
+        <div class="service-card zoom-in" data-service="Borehole Drilling" data-price="5000">
+          <h3>Borehole Drilling</h3>
+          <p>Reliable and professional borehole drilling services for clean water.</p>
+          <button class="add-to-cart">Book Now</button>
+        </div>
+        <div class="service-card zoom-in" data-service="Solar Installation" data-price="7000">
+          <h3>Solar Installation</h3>
+          <p>Power your home with sustainable solar solutions.</p>
+          <button class="add-to-cart">Book Now</button>
+        </div>
+        <div class="service-card zoom-in" data-service="Pump Installation" data-price="4000">
+          <h3>Pump Installation</h3>
+          <p>Efficient and cost-effective pump installations.</p>
+          <button class="add-to-cart">Book Now</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="products">
+      <h2>Our Products</h2>
+      <div class="product-container">
+        <div class="product-card zoom-in" data-product="Solar Panel" data-category="Solar" data-price="12000">
+          <h3>Solar Panel</h3>
+          <p>High-quality solar panels for your energy needs.</p>
+          <p class="price">Ksh 12,000</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product-card zoom-in" data-product="Water Pump" data-category="Pumps" data-price="5000">
+          <h3>Water Pump</h3>
+          <p>Reliable and durable water pumps.</p>
+          <p class="price">Ksh 5,000</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product-card zoom-in" data-product="Generator" data-category="Generators" data-price="15000">
+          <h3>Generator</h3>
+          <p>Efficient and powerful generators.</p>
+          <p class="price">Ksh 15,000</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="cart" class="cart-modal">
+    <div class="cart-modal-content">
+      <h3>Your Cart</h3>
+      <ul id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+      </ul>
+      <div class="cart-total">
+        Total: Ksh <span id="total-amount">0</span>
+      </div>
+      <button id="checkout-button">Proceed to Checkout</button>
+      <button class="close-cart">Close</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Plasma Water Africa - All Rights Reserved</p>
+  </footer>
+
+  <script>
+    let cart = [];
+    const cartButton = document.getElementById('cart-button');
+    const cartModal = document.getElementById('cart');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalAmount = document.getElementById('total-amount');
+    const checkoutButton = document.getElementById('checkout-button');
+    const closeCartButton = document.querySelector('.close-cart');
+
+    // Add to cart function
+    function addToCart(productName, price) {
+      cart.push({ productName, price });
+      updateCart();
+    }
+
+    // Update cart display
+    function updateCart() {
+      cartButton.innerText = `Cart (${cart.length})`;
+
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.productName} - Ksh ${item.price}`;
+        cartItemsContainer.appendChild(li);
+        total += item.price;
+      });
+      totalAmount.textContent = total;
+    }
+
+    // Open cart modal
+    cartButton.addEventListener('click', () => {
+      cartModal.style.display = 'flex';
+    });
+
+    // Close cart modal
+    closeCartButton.addEventListener('click', () => {
+      cartModal.style.display = 'none';
+    });
+
+    // Checkout action
+    checkoutButton.addEventListener('click', () => {
+      alert('Proceeding to MPESA payment...');
+    });
+
+    // Add product or service to cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', () => {
+        const productName = button.closest('.service-card')?.dataset.service || button.closest('.product-card')?.dataset.product;
+        const price = parseInt(button.closest('.service-card')?.dataset.price || button.closest('.product-card')?.dataset.price);
+        addToCart(productName, price);
+      });
+    });
+  </script>
+</body>
+</html>
